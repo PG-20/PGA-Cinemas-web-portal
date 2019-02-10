@@ -1,0 +1,240 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm</title>
+    <link href='https://fonts.googleapis.com/css?family=Bangers' rel='stylesheet'>
+</head>
+<body>
+
+<div id='header'>
+    <a href='/ticketing/buywelcome' id='buy'>Buy a Ticket</a>
+    <div id='options'>
+        <a href='/comments/comment'>Movie Review</a>
+        <a href='/ticketing/history'>Purchase History</a>
+        <a href='/users/logout'>Logout</a>
+    </div>
+</div>
+
+<div id='containerDiv'><h1>Order Information</h1>
+    <% var total = 0;
+       selectedSeats.forEach(function(seat, index){
+       var cat = selectTicketCategory[index];
+       var fee = cat == 'Adult' ? 75 : 50;
+       total += fee%>
+    <table frame='box' id='broadcastInfo'>
+        <tr>
+            <td>Cinema:</td>
+            <td>US</td>
+        </tr>
+        <tr>
+            <td>House:</td>
+            <td>House <%= broadcast.houseID %></td>
+        </tr>
+        <tr>
+            <td>SeatNo:</td>
+            <td><%= seat %></td>
+        </tr>
+        <tr>
+            <td>Film:</td>
+            <td><%= film.filmName %></td>
+        </tr>
+        <tr>
+            <td>Category:</td>
+            <td><%= film.category %></td>
+        </tr>
+        <tr>
+            <td>Showtime:</td>
+            <%var options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', minute: 'numeric', hour: 'numeric'};
+              var formatted = broadcast.dates.toLocaleDateString('en-GB', options).split(",").sort().join(" ")%>
+            <td><%= formatted %></td>
+        </tr>
+        <tr>
+            <td>Ticket Fee:</td>
+            <td>$<%= total %> (<%= cat %>)</td>
+        </tr>
+    </table>
+    <%})%>
+    <span>Total Fees: $<%= total %></span>
+    <div class='hr'></div>
+    <span>Please present valid proof of age/status when purchasing Student or Senior tickets before entering the cinema house.</span>
+    <button onclick="window.location.href='/ticketing/buywelcome'">OK</button></div>
+</body>
+<style>
+    html{
+        background-color: #f2f2f2;
+    }
+
+    #header{ font-family: Impact, Charcoal, sans-serif;
+        background-color: rgba(211, 211, 211,0.6);
+        width: 100%;
+        height: 12vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        top: 0;
+        left: 0;
+        position: fixed;
+    }
+    #buy{
+        float: left;
+        font-size: 110%;
+        margin-left: 2vw;
+        padding: 5px 7px;
+        position: absolute;
+    }
+
+    #options{
+        flex-direction: row;
+        align-self: flex-end;
+        margin-right: 1vw;
+    }
+    #options a{
+        flex: 1;
+        font-size: 80%;
+        margin-right: 1vw;
+    }
+    a{
+        text-decoration: none;
+        color: black;
+        border-radius: 5px;
+        position: relative;
+    }
+    a:hover{
+        color: #1968e8;
+    }
+
+    #options a:active{
+        transform: translateY(1px);
+    }
+
+    #containerDiv{
+        margin-top: 10%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    table{
+        margin: 7;
+        padding: 5;
+        border-width: thick;
+        border-color: black;
+    }
+
+    span{
+        margin: 10;
+        text-align: center;
+    }
+
+    .hr{
+        height: 0.2%;
+        width: 78%;
+        background-color: black;
+    }
+
+    button {
+        padding: 9px;
+        font-family: 'Bangers';
+        height: 30px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #000;
+        background-color: #4CAF50;
+        border: none;
+        margin: 5px;
+        border-radius: 7px;
+        box-shadow: 0 4px #999;
+    }
+
+    button:hover {background-color: #3e8e41}
+
+    button:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+
+
+    @media only screen and (min-width: 1025px) {
+        #header{ font-family: Impact, Charcoal, sans-serif;
+            background-color: rgba(211, 211, 211,0.6);
+            width: 100%;
+            height: 4vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            top: 0;
+            left: 0;
+            position: fixed;
+        }
+        #buy{
+            float: left;
+            position: absolute;
+            font-size: 160%;
+            margin-left: 2vw;
+        }
+        #options a{
+            flex: 1;
+            font-size: 115%;
+            margin-right: 1.5vw;
+        }
+
+        a{
+            padding: 7px;
+        }
+
+        a:hover{
+            background-color: #1968e8;
+            color: white;
+        }
+
+        #buy:active{
+            transform: translateY(1px);
+        }
+
+
+        #containerDiv{
+            margin-top: 4%;
+        }
+    }
+    @media only screen and (min-width: 600px) and (max-width: 1024px) {
+        #header {
+            font-family: Impact, Charcoal, sans-serif;
+            background-color: rgba(211, 211, 211, 0.6);
+            width: 100%;
+            height: 7vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            top: 0;
+            left: 0;
+            position: fixed;
+        }
+
+        #buy {
+            float: left;
+            position: absolute;
+            font-size: 150%;
+            margin-left: 2vw;
+        }
+
+        #options a {
+            flex: 1;
+            font-size: 100%;
+            margin-right: 1.5vw;
+        }
+
+        a {
+            padding: 5px;
+        }
+
+
+        #containerDiv {
+            margin-top: 6%;
+        }
+    }
+</style>
+</html>

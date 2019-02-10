@@ -1,0 +1,183 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Selection</title>
+    <link href='https://fonts.googleapis.com/css?family=Bangers' rel='stylesheet'>
+</head>
+<style>
+    html{
+        background-color: #f2f2f2;
+    }
+
+    #container{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    table{
+        margin: 7px;
+    }
+
+    input[type='checkbox']{
+        display: none;
+    }
+
+    form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #seatplan tfoot td{
+        text-align: center;
+        border-radius: 5px ;
+        background-color: teal;
+        color: white;
+        font-size: 100%;
+    }
+
+
+    #seatplan tbody td{
+        text-align: center;
+        font-family: Impact, Charcoal, sans-serif;
+        border-radius: 5px ;
+        height: 12vw;
+        width: 13vw;
+        border: solid 1px transparent;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+
+    .seat{
+        background-color: red;
+        transition: background-color 0.5s;
+    }
+
+    .button {
+        padding: 9px;
+        font-family: 'Bangers';
+        height: 30px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #000;
+        background-color: #4CAF50;
+        border: none;
+        margin: 5px;
+        border-radius: 7px;
+        box-shadow: 0 4px #999;
+    }
+
+    .button:hover {background-color: #3e8e41}
+
+    .button:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+
+    @media only screen and (min-width: 1025px) {
+
+        .seat:hover{
+            background-color: blue !important;
+        }
+
+
+        #seatplan tbody  td{
+            text-align: center;
+            border-radius: 5px ;
+            height: 4vw;
+            width: 5vw;
+        }
+    }
+    @media only screen and (min-width: 600px) and (max-width: 1024px){
+
+        #seatplan tbody td{
+            text-align: center;
+            border-radius: 5px ;
+            height: 8vw;
+            width: 9vw;
+        }
+
+    }
+
+</style>
+<body>
+    <div id='container'>
+        <h1>Ticketing</h1>
+        <table frame='box' id='broadcastInfo'>
+            <tr>
+                <td>Cinema:</td>
+                <td>PGA</td>
+            </tr>
+            <tr>
+                <td>House:</td>
+                <td>House <%= broadcast.houseID %> </td>
+            </tr>
+            <tr>
+                <td>Film:</td>
+                <td><%= film.filmName %></td>
+            </tr>
+            <tr>
+                <td>Category:</td>
+                <td><%= film.category %></td>
+            </tr>
+            <tr>
+                <td>Showtime:</td>
+                <%var options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', minute: 'numeric', hour: 'numeric'};
+                  var formatted = broadcast.dates.toLocaleDateString('en-GB', options).split(",").sort().join(" ")%>
+                <td><%= formatted %></td>
+            </tr>
+        </table>
+        <form onsubmit="toBuy(event)" method="post" action="/ticketing/buyticket">
+            <table id='seatplan'>
+                <% for(var i=1; i<house.houseRow ;i++){ %>
+                    <tr>
+                    <% for(var j=1; j<house.houseCol ;j++){ %>
+                        <%let seatNumber =  String.fromCharCode(64+ i)+j.toString(); %>
+                        <% if (soldSeats.indexOf(seatNumber)===-1) {%>
+                            <td class='seat'><input type='checkbox' name='seats[]' value="<%=seatNumber%>" id="<%=seatNumber%>"/><label for="<%=seatNumber%>"><%=seatNumber%></label></td>
+                        <% }else{ %>
+                            <td style='background-color: green'><%= seatNumber %><br/><span style='font-size: 75%'>(Sold)</span></td>
+                        <% }} %>
+                    </tr>
+                <%}%>
+
+                <tfoot><tr><td colspan="<%=house.houseCol%>"><span>SCREEN</span></td></tr></tfoot>
+            </table>
+            <div>
+                <input type='hidden' name='broadcast' value='<%= broadcast.broadcastID %>' />
+                <input type='submit' id='submit' class='button'>
+                <button type='button' onclick="window.location.href='/ticketing/buywelcome'" class='button'>Cancel</button>
+            </div>
+        </form>
+    </div>
+</body>
+<script type="text/javascript">
+    window.addEventListener('DOMContentLoaded', function(){
+        Array.from(document.getElementsByName("seats[]")).map(input => input.checked=false);
+    });
+
+    function toBuy(event){
+        let a= document.getElementsByName("seats[]")
+        let b=Array.from(a)
+        let c=(b.filter(input => input.checked)).map(input => input.value)
+
+        if (c.length==0){
+            event.preventDefault()
+            alert('Please select at least 1 seat')
+        }
+    };
+
+    Array.from(document.getElementsByClassName("seat")).forEach((element) => {element.addEventListener("click", () => {
+        element.childNodes[0].checked=!element.childNodes[0].checked;
+        element.style.borderColor=element.childNodes[0].checked?'black':'transparent';
+        element.style.backgroundColor=element.childNodes[0].checked?'yellow':'red'})});
+
+</script>
+</html>

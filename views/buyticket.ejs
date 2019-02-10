@@ -1,0 +1,111 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Ticket</title>
+    <link href='https://fonts.googleapis.com/css?family=Bangers' rel='stylesheet'>
+</head>
+<body>
+    <div id='container'>
+        <h1>Cart</h1>
+            <table frame='box' id='broadcastInfo'>
+                <tr>
+                    <td>Cinema:</td>
+                    <td>PGA</td>
+                </tr>
+                <tr>
+                    <td>House:</td>
+                    <td>House <%= broadcast.houseID %> </td>
+                </tr>
+                <tr>
+                    <td>Film:</td>
+                    <td><%= film.filmName %></td>
+                </tr>
+                <tr>
+                    <td>Category:</td>
+                    <td><%= film.category %></td>
+                </tr>
+                <tr>
+                    <td>Showtime:</td>
+                    <%var options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', minute: 'numeric', hour: 'numeric'};
+                      var formatted = broadcast.dates.toLocaleDateString('en-GB', options).split(",").sort().join(" ")%>
+                    <td><%= formatted %></td>
+                </tr>
+            </table>
+
+
+        <form method='POST' action='/ticketing/confirm'>
+            <% selectedSeats.forEach(function (seat){ %>
+                <div class='categoryDiv'><label for='TicketCat'><%= seat %></label>
+                    <select name='selectTicketCategory[]'>
+                        <option value='Adult'>Adult ($75)</option>
+                        <option value='Senior/Student'>Senior/Student ($50)</option>
+                    </select>
+                    <input type='hidden' name='selectedSeats[]' id='TicketCat' value='<%= seat %>'>
+                </div>
+            <% }) %>
+            <div id='buttonContainer'>
+                <input type='hidden' name='broadcast' value="<%= broadcast.broadcastID %>"/>
+                <input type='submit' value='Confirm' class='button'>
+                <button type='button' onclick="window.location.href='/ticketing/buywelcome'" class='button'>Cancel</button>
+            </div>
+        </form>
+    </div>
+</body>
+<style>
+    #container{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+    table{
+        margin: 10px;
+        padding: 5px;
+        border-width: medium;
+        border-color: black;
+    }
+
+    html{
+        background-color: #f2f2f2;
+    }
+
+    form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    #buttonContainer{
+        margin-top: 5%;
+    }
+
+    .categoryDiv{
+        margin: 5px;
+    }
+    .button {
+        padding: 9px;
+        font-family: 'Bangers';
+        height: 30px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #000;
+        background-color: #4CAF50;
+        border: none;
+        margin: 5px;
+        border-radius: 7px;
+        box-shadow: 0 4px #999;
+    }
+
+    .button:hover {background-color: #3e8e41}
+
+    .button:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+</style>
+
+</html>
+

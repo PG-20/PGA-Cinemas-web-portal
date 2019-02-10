@@ -1,0 +1,186 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Purchase History</title>
+</head>
+<style>
+    html{
+        background-color: #f2f2f2;
+    }
+
+    #header{ font-family: Impact, Charcoal, sans-serif;
+        background-color: lightgray;
+        width: 100%;
+        height: 12vw;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        top: 0;
+        left: 0;
+        position: fixed;
+    }
+    #buy{
+        float: left;
+        font-size: 110%;
+        margin-left: 2vw;
+        padding: 5px 7px;
+        position: absolute;
+    }
+
+    #options{
+        flex-direction: row;
+        align-self: flex-end;
+        margin-right: 1vw;
+    }
+    #options a{
+        flex: 1;
+        font-size: 80%;
+        margin-right: 1vw;
+    }
+    a{
+        text-decoration: none;
+        color: black;
+        border-radius: 5px;
+        position: relative;
+    }
+    a:hover{
+        color: #1968e8;
+    }
+
+    #options a:active{
+        transform: translateY(1px);
+    }
+
+    #containerDiv{
+        margin-top: 10%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    table{
+        margin: 7px;
+        padding: 5px;
+        border-width: medium;
+        border-color: black;
+        table-layout: fixed;
+        width: 350px;
+    }
+
+    #itemDiv{
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-evenly;
+    }
+
+
+
+
+    @media only screen and (min-width: 1025px) {
+        #header{ font-family: Impact, Charcoal, sans-serif;
+            background-color: lightgray;
+            width: 100%;
+            height: 4vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            top: 0;
+            left: 0;
+            position: fixed;
+        }
+        #buy{
+            float: left;
+            position: absolute;
+            font-size: 160%;
+            margin-left: 2vw;
+        }
+        #options a{
+            flex: 1;
+            font-size: 115%;
+            margin-right: 1.5vw;
+        }
+
+        a{
+            padding: 7px;
+        }
+
+        a:hover{
+            background-color: #1968e8;
+            color: white;
+        }
+
+        #buy:active{
+            transform: translateY(1px);
+        }
+
+        #containerDiv{
+            margin-top: 4%;
+        }
+
+    }
+    @media only screen and (min-width: 600px) and (max-width: 1024px) {
+        #header {
+            font-family: Impact, Charcoal, sans-serif;
+            background-color: lightgray;
+            width: 100%;
+            height: 7vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            top: 0;
+            left: 0;
+            position: fixed;
+        }
+
+        #buy {
+            float: left;
+            position: absolute;
+            font-size: 150%;
+            margin-left: 2vw;
+        }
+
+        #options a {
+            flex: 1;
+            font-size: 100%;
+            margin-right: 1.5vw;
+        }
+
+        a {
+            padding: 5px;
+        }
+
+        #containerDiv {
+            margin-top: 6%;
+        }
+    }
+</style>
+<body>
+    <div id='header'>
+        <a href='/ticketing/buywelcome' id='buy'>Buy a Ticket</a>
+        <div id='options'>
+            <a href='/comments/comment'>Movie Review</a>
+            <a href='/ticketing/history'>Purchase History</a>
+            <a href='/users/logout'>Logout</a>
+        </div>
+    </div>
+
+    <div id='containerDiv'>
+    <h1>Purchase History</h1>
+        <h3>Username: <%= userName %></h3>
+        <div id='itemDiv'>
+        <% purchases.forEach(function(purchase){ %>
+            <table frame='box'>
+                <tr>
+                    <td>TicketID:</td><td> <%= purchase.ticketID %> $<%= purchase.ticketFee %> (<%= purchase.ticketType %>)</td>
+                </tr>
+                <tr><td>House:</td> <td><%= purchase.broadcastInfo.houseID %></td></tr>
+                <tr><td>FilmName:</td><td> <%= purchase.filmInfo.filmName %> (<%= purchase.filmInfo.category %>) <%= purchase.filmInfo.duration %> mins</td></tr>
+                <tr><td>Language: </td><td><%= purchase.filmInfo.language %></td></tr>
+                <%var options = { weekday: 'long', year: 'numeric', month: 'numeric', day: 'numeric', minute: 'numeric', hour: 'numeric'};
+                  var formatted = purchase.broadcastInfo.dates.toLocaleDateString('en-GB', options).split(",").sort().join(" ")%>
+                <tr><td>Date: </td><td> <%= formatted %></td></tr>
+            </table>
+        <%})%>
+        </div>
+    </div>

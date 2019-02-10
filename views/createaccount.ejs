@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account</title>
+    <link href='https://fonts.googleapis.com/css?family=Bangers' rel='stylesheet'>
+</head>
+
+<body>
+<div id="containerDiv">
+    <h1>Create Account</h1>
+    <form name="createForm" action="/users/create" method="post">
+        <div class="inputDiv">
+            <label for="username">Username: </label><br>
+            <input type="text"
+                   id="username"
+                   class="input"
+                   name="username"
+                   required
+                   placeholder="Desired Username"
+                   pattern="[A-Za-z0-9]{4,}">
+        </div>
+        <div class="inputDiv">
+            <label for="password">Password: </label><br>
+            <input type="password"
+                   id="password"
+                   class="input"
+                   required
+                   name="password"
+                   placeholder="Your Password"
+                   pattern="(?=.*\d)(?=.*[a-zA-Z])[A-Za-z0-9]{6,15}">
+        </div>
+        <div>
+            <button onclick="window.location.href='/index.html'" class="button">Back</button>
+            <input type="submit" id="submit" value="Sign Up" class="button">
+        </div>
+    </form>
+</div>
+</body>
+</html>
+
+<script>
+    function checkValidity() {
+        console.log("hi");
+        let user = document.getElementById("username");
+        let password = document.getElementById("password");
+
+        if (!user.value || !password.value){
+            alert("Please do not leave the fields empty");
+        }
+        else if (user.value.length<4) {
+            alert("Username must be longer than 3 characters");
+        }
+        else if (user.validity.patternMismatch){
+            alert("Username can only consist of characters and numbers");
+        }
+        else if (password.validity.patternMismatch){
+            alert("The length of the password must be between 6 to 15 characters " +
+                "and it must consist of only alphanumerical characters with at least one alphabet and one numerical "
+                + "character");
+        }
+    }
+    document.getElementById("submit").addEventListener('click',checkValidity)
+</script>
+<style>
+    #containerDiv{
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background-color: rgba(0,0,0,0.6);
+        border-radius: 5px;
+        width: 300px;
+        margin: auto;
+        padding-bottom: 25px;
+    }
+    body{
+        background: url("./images/cinema.jpg") no-repeat center center fixed;
+        background-size: cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+    }
+    html{
+        height: 100%;
+    }
+    h1{
+        color: white;
+        text-align: center;
+        font-family: Impact, Charcoal, sans-serif;
+    }
+
+    form{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    label{
+        color: white;
+    }
+
+    .input{
+        padding: 5px;
+        width: 200px;
+        height: 15px;
+        border-radius: 5px;
+    }
+
+    .inputDiv{
+        margin-bottom: 7px;
+    }
+
+    .button {
+        padding: 10px;
+        font-family: 'Bangers';
+        height: 30px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        outline: none;
+        color: #fff;
+        background-color: #4CAF50;
+        border: none;
+        margin: 5px;
+        border-radius: 7px;
+        box-shadow: 0 4px #999;
+    }
+
+    .button:hover {background-color: #3e8e41}
+
+    .button:active {
+        background-color: #3e8e41;
+        box-shadow: 0 5px #666;
+        transform: translateY(4px);
+    }
+
+</style>
